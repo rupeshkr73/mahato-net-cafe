@@ -1,1 +1,183 @@
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
 
+body{
+background:linear-gradient(135deg,#d32f2f,#7f0000);
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:20px;
+}
+
+.book-container{
+width:100%;
+max-width:1000px;
+}
+
+.book{
+background:#fff;
+border-radius:20px;
+overflow:hidden;
+box-shadow:0 20px 50px rgba(0,0,0,.35);
+min-height:700px;
+position:relative;
+}
+
+.page{
+display:none;
+padding:40px;
+min-height:700px;
+animation:flip .5s ease;
+}
+
+.page.active{
+display:block;
+}
+
+@keyframes flip{
+from{
+opacity:0;
+transform:rotateY(20deg);
+}
+to{
+opacity:1;
+transform:rotateY(0);
+}
+}
+
+.cover-page{
+text-align:center;
+}
+
+.logo{
+width:120px;
+margin-bottom:15px;
+}
+
+.cover-page h1{
+font-size:42px;
+color:#d32f2f;
+margin-bottom:10px;
+}
+
+.cover-page p{
+font-size:18px;
+margin-bottom:20px;
+color:#555;
+}
+
+.shop{
+width:100%;
+max-width:550px;
+border-radius:15px;
+box-shadow:0 8px 20px rgba(0,0,0,.2);
+margin-bottom:25px;
+}
+
+.cover-page button{
+background:#d32f2f;
+color:#fff;
+border:none;
+padding:14px 30px;
+border-radius:10px;
+font-size:18px;
+cursor:pointer;
+}
+
+.page h2{
+text-align:center;
+margin-bottom:30px;
+color:#d32f2f;
+font-size:34px;
+}
+
+.page ul{
+list-style:none;
+max-width:600px;
+margin:auto;
+}
+
+.page ul li{
+background:#f5f5f5;
+padding:15px;
+margin-bottom:12px;
+border-left:5px solid #d32f2f;
+border-radius:8px;
+font-size:18px;
+}
+
+.gallery{
+text-align:center;
+}
+
+.gallery img{
+width:220px;
+height:220px;
+object-fit:cover;
+margin:10px;
+border-radius:12px;
+box-shadow:0 4px 12px rgba(0,0,0,.2);
+}
+
+.contact{
+text-align:center;
+}
+
+.contact p{
+font-size:22px;
+margin:15px 0;
+}
+
+.contact a{
+display:block;
+margin:15px auto;
+max-width:300px;
+padding:14px;
+background:#d32f2f;
+color:white;
+text-decoration:none;
+border-radius:10px;
+font-weight:bold;
+}
+
+.controls{
+text-align:center;
+margin-top:20px;
+}
+
+.controls button{
+background:#fff;
+border:none;
+padding:12px 25px;
+margin:5px;
+border-radius:10px;
+font-size:18px;
+cursor:pointer;
+font-weight:bold;
+}
+
+@media(max-width:768px){
+
+.page{
+padding:20px;
+}
+
+.cover-page h1{
+font-size:30px;
+}
+
+.page h2{
+font-size:26px;
+}
+
+.gallery img{
+width:140px;
+height:140px;
+}
+
+}
