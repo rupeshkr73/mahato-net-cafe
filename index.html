@@ -22,16 +22,23 @@ header{
 background:#e53935;
 color:white;
 text-align:center;
-padding:30px 15px;
+padding:20px;
+}
+
+.logo{
+width:120px;
+display:block;
+margin:auto;
+margin-bottom:10px;
 }
 
 header h1{
-font-size:40px;
+font-size:42px;
 }
 
 header p{
-margin-top:10px;
 font-size:18px;
+margin-top:5px;
 }
 
 .hero{
@@ -41,21 +48,21 @@ text-align:center;
 
 .hero img{
 width:100%;
-max-width:1000px;
+max-width:800px;
 border-radius:12px;
-box-shadow:0 5px 15px rgba(0,0,0,.2);
+box-shadow:0 5px 15px rgba(0,0,0,.3);
 }
 
 .section{
-padding:30px 20px;
 max-width:1200px;
 margin:auto;
+padding:30px 15px;
 }
 
 .section h2{
+text-align:center;
 color:#e53935;
 margin-bottom:20px;
-text-align:center;
 }
 
 .grid{
@@ -83,17 +90,25 @@ color:green;
 margin-top:10px;
 }
 
+.welcome{
+background:white;
+padding:25px;
+border-radius:12px;
+text-align:center;
+box-shadow:0 3px 10px rgba(0,0,0,.1);
+}
+
 .contact{
 background:#222;
 color:white;
-padding:30px;
 text-align:center;
+padding:40px 20px;
 }
 
 .btn{
 display:inline-block;
-margin:10px;
 padding:12px 20px;
+margin:10px;
 background:#e53935;
 color:white;
 text-decoration:none;
@@ -112,24 +127,81 @@ text-align:center;
 padding:15px;
 }
 
+.whatsapp{
+position:fixed;
+bottom:20px;
+right:20px;
+width:60px;
+height:60px;
+background:#25D366;
+color:white;
+border-radius:50%;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:28px;
+text-decoration:none;
+z-index:999;
+}
+
+.call{
+position:fixed;
+bottom:90px;
+right:20px;
+width:60px;
+height:60px;
+background:#e53935;
+color:white;
+border-radius:50%;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:28px;
+text-decoration:none;
+z-index:999;
+}
+
 </style>
 </head>
 
 <body>
 
-
-
 <header>
-<img src="Logo.png" style="width:120px;border-radius:12px;">
+
+<img src="Logo.png" class="logo">
+
 <h1>MAHATO NET CAFE</h1>
+
 <p>Digital Sewa & Customize Gifting</p>
+
 </header>
 
 <section class="hero">
-<img src="shop%20photo.JPG" alt="Mahato Net Cafe">
+
+<img src="shop photo.JPG" alt="Mahato Net Cafe">
+
 </section>
 
 <section class="section">
+
+<div class="welcome">
+
+<h2>Welcome To Mahato Net Cafe</h2>
+
+<p>
+Aadhaar Services, PAN Card, Voter ID, Income Certificate,
+Caste Certificate, Residential Certificate, Online Form Fill-up,
+Train Ticket Booking, Flight Ticket Booking, Printing,
+Lamination, Photo Printing, T-Shirt Printing,
+Customized Gifts and Instagram Photo Frames Available Here.
+</p>
+
+</div>
+
+</section>
+
+<section class="section">
+
 <h2>Popular Online Services</h2>
 
 <div class="grid">
@@ -165,9 +237,11 @@ padding:15px;
 </div>
 
 </div>
+
 </section>
 
 <section class="section">
+
 <h2>Printing Services</h2>
 
 <div class="grid">
@@ -193,9 +267,11 @@ padding:15px;
 </div>
 
 </div>
+
 </section>
 
 <section class="section">
+
 <h2>Customize Gifts</h2>
 
 <div class="grid">
@@ -225,43 +301,38 @@ padding:15px;
 </div>
 
 </div>
+
 </section>
 
 <section class="section">
+
 <h2>Trending Instagram Photo Frames</h2>
 
 <div class="grid">
 
 <div class="card">
 <h3>A4 Size Frame</h3>
-<p>
-Birthday Frame<br>
-Anniversary Frame<br>
-Baby Welcome Frame<br>
-Friendship Frame<br>
-Couple Frame<br>
-Custom Design Frame
-</p>
+<p>Birthday, Anniversary, Baby Welcome, Friendship, Couple & Custom Frame</p>
 <div class="price">₹350</div>
 </div>
 
 <div class="card">
 <h3>A3 Size Frame</h3>
-<p>
-Premium Instagram Style Frame<br>
-High Quality Print & Frame
-</p>
+<p>Premium Instagram Style Photo Frame</p>
 <div class="price">₹700</div>
 </div>
 
 </div>
+
 </section>
 
 <section class="contact">
 
 <h2>Contact Us</h2>
 
-<p><b>Mahato Net Cafe</b></p>
+<p><strong>Mahato Net Cafe</strong></p>
+
+<br>
 
 <p>📞 7992384657</p>
 
@@ -271,11 +342,19 @@ High Quality Print & Frame
 
 <a class="btn" href="https://wa.me/917992384657">WhatsApp</a>
 
+<a class="btn" href="https://maps.google.com">Location</a>
+
 </section>
 
 <footer>
+
 © 2025 Mahato Net Cafe | All Rights Reserved
+
 </footer>
+
+<a href="tel:7992384657" class="call">📞</a>
+
+<a href="https://wa.me/917992384657" class="whatsapp">💬</a>
 
 </body>
 </html>
