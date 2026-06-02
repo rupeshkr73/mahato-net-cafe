@@ -2,204 +2,612 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Mahato Net Cafe Flipbook</title>
+<title>Mahato Net Cafe</title>
 
-<link rel="stylesheet" href="style.css">
+<style>
 
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+background:#f4f4f4;
+overflow-x:hidden;
+}
+
+.slider{
+width:100%;
+height:100vh;
+position:relative;
+overflow:hidden;
+}
+
+.slide{
+width:100%;
+height:100vh;
+display:none;
+justify-content:center;
+align-items:center;
+padding:30px;
+background:linear-gradient(135deg,#c50000,#ff2b2b);
+}
+
+.slide.active{
+display:flex;
+animation:fade .6s ease;
+}
+
+@keyframes fade{
+from{opacity:0;transform:translateX(50px);}
+to{opacity:1;transform:translateX(0);}
+}
+
+.page{
+width:95%;
+max-width:1200px;
+background:white;
+border-radius:25px;
+padding:30px;
+box-shadow:0 15px 40px rgba(0,0,0,.25);
+max-height:90vh;
+overflow:auto;
+}
+
+.logo{
+text-align:center;
+}
+
+.logo img{
+width:130px;
+}
+
+.logo h1{
+color:#d50000;
+font-size:42px;
+margin-top:10px;
+}
+
+.logo p{
+color:#555;
+font-size:18px;
+}
+
+.hero{
+text-align:center;
+margin-top:20px;
+}
+
+.hero img{
+width:100%;
+max-width:650px;
+border-radius:15px;
+box-shadow:0 10px 25px rgba(0,0,0,.3);
+}
+
+.title{
+text-align:center;
+font-size:40px;
+color:#d50000;
+margin-bottom:25px;
+font-weight:bold;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+}
+
+.card{
+background:#f8f8f8;
+padding:20px;
+border-radius:15px;
+box-shadow:0 5px 15px rgba(0,0,0,.1);
+}
+
+.card h3{
+color:#d50000;
+margin-bottom:10px;
+}
+
+.price{
+font-size:24px;
+font-weight:bold;
+color:green;
+margin-top:10px;
+}
+
+.gallery{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+}
+
+.gallery img{
+width:100%;
+border-radius:15px;
+box-shadow:0 5px 20px rgba(0,0,0,.2);
+transition:.3s;
+}
+
+.gallery img:hover{
+transform:scale(1.05);
+}
+
+.nav{
+position:fixed;
+bottom:20px;
+left:50%;
+transform:translateX(-50%);
+z-index:999;
+}
+
+.nav button{
+padding:12px 25px;
+border:none;
+background:#d50000;
+color:white;
+font-size:18px;
+border-radius:10px;
+margin:0 5px;
+cursor:pointer;
+}
+
+.floating{
+position:fixed;
+right:20px;
+bottom:20px;
+display:flex;
+flex-direction:column;
+gap:12px;
+z-index:999;
+}
+
+.floating a{
+width:60px;
+height:60px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+text-decoration:none;
+font-size:28px;
+background:white;
+box-shadow:0 5px 20px rgba(0,0,0,.2);
+}
+
+</style>
 </head>
+
 <body>
 
-<div class="book-container">
-
-<div class="book">
-
-<!-- COVER -->
-
-<div class="page active">
-<div class="cover-page">
-
-<img src="Logo.png" class="logo">
-
-<h1>MAHATO NET CAFE</h1>
-
-<p>Digital Sewa & Customize Gifting</p>
-
-<img src="shop photo.JPG" class="shop">
-
-<button onclick="nextPage()">Open Catalogue</button>
-
-</div>
-</div>
+<div class="slider">
 
 <!-- PAGE 1 -->
 
-<div class="page">
-<h2>Aadhaar Services</h2>
-
-<ul>
-<li>New Aadhaar</li>
-<li>Aadhaar Update</li>
-<li>Mobile Link</li>
-<li>Address Correction</li>
-<li>PVC Aadhaar Card</li>
-</ul>
-
-</div>
-
-<!-- PAGE 2 -->
+<div class="slide active">
 
 <div class="page">
 
-<h2>PAN Services</h2>
+<div class="logo">
+<img src="Logo.png">
+<h1>MAHATO NET CAFE</h1>
+<p>Digital Seva & Customized Gifts</p>
+</div>
 
-<ul>
-<li>New PAN Card</li>
-<li>PAN Correction</li>
-<li>ePAN Download</li>
-<li>Reprint PAN</li>
-</ul>
+<div class="hero">
+<img src="shop%20photo.JPG">
+</div>
 
 </div>
 
+</div>
+
+<!-- PAGE 2 INSTAGRAM -->
+
+<div class="slide">
+
+<div class="page">
+
+<div class="title">
+Instagram Frames
+</div>
+
+<div class="gallery">
+
+<img src="frame1%20(1).jpg">
+<img src="frame1%20(2).jpg">
+<img src="frame1%20(3).jpg">
+<img src="frame1%20(4).jpg">
+<img src="frame1%20(5).JPG">
+<img src="frame1%20(6).jpg">
+<img src="frame1%20(7).jpg">
+<img src="frame1%20(8).jpg">
+<img src="frame1%20(9).jpg">
+<img src="frame1%20(10).jpg">
+
+</div>
+
+</div>
+
+</div>
 <!-- PAGE 3 -->
 
+<div class="slide">
+
 <div class="page">
 
-<h2>Certificate Services</h2>
+<div class="title">Aadhaar Services</div>
 
-<ul>
-<li>Income Certificate</li>
-<li>Caste Certificate</li>
-<li>Residential Certificate</li>
-<li>Birth Certificate</li>
-<li>Death Certificate</li>
-</ul>
+<div class="grid">
+
+<div class="card">
+<h3>Aadhaar Update</h3>
+<p>Name, DOB, Address, Mobile Update</p>
+<div class="price">₹75</div>
+</div>
+
+<div class="card">
+<h3>PVC Aadhaar Card</h3>
+<p>High Quality PVC Print</p>
+<div class="price">₹100</div>
+</div>
+
+<div class="card">
+<h3>Aadhaar Print</h3>
+<p>Colour Print Available</p>
+<div class="price">₹20</div>
+</div>
+
+</div>
+
+</div>
 
 </div>
 
 <!-- PAGE 4 -->
 
+<div class="slide">
+
 <div class="page">
 
-<h2>CSC Services</h2>
+<div class="title">PAN Services</div>
 
-<ul>
-<li>Ayushman Card</li>
-<li>E-Shram Card</li>
-<li>Labour Card</li>
-<li>Pension Services</li>
-<li>Jharsewa Services</li>
-</ul>
+<div class="grid">
+
+<div class="card">
+<h3>New PAN Card</h3>
+<div class="price">₹200</div>
+</div>
+
+<div class="card">
+<h3>PAN Correction</h3>
+<div class="price">₹250</div>
+</div>
+
+<div class="card">
+<h3>ePAN Download</h3>
+<div class="price">₹50</div>
+</div>
+
+</div>
+
+</div>
 
 </div>
 
 <!-- PAGE 5 -->
 
+<div class="slide">
+
 <div class="page">
 
-<h2>Travel Services</h2>
+<div class="title">Certificate Services</div>
 
-<ul>
-<li>Rail Ticket Booking</li>
-<li>Flight Ticket Booking</li>
-<li>Bus Ticket Booking</li>
-<li>Hotel Booking</li>
-</ul>
+<div class="grid">
+
+<div class="card">
+<h3>Income Certificate</h3>
+<div class="price">₹100</div>
+</div>
+
+<div class="card">
+<h3>Caste Certificate</h3>
+<div class="price">₹100</div>
+</div>
+
+<div class="card">
+<h3>Residential Certificate</h3>
+<div class="price">₹100</div>
+</div>
+
+</div>
+
+</div>
 
 </div>
 
 <!-- PAGE 6 -->
 
+<div class="slide">
+
 <div class="page">
 
-<h2>Printing Services</h2>
+<div class="title">CSC Services</div>
 
-<ul>
-<li>Color Print</li>
-<li>B/W Print</li>
-<li>Xerox</li>
-<li>Lamination</li>
-<li>Spiral Binding</li>
-</ul>
+<div class="grid">
+
+<div class="card">
+<h3>Ayushman Card</h3>
+</div>
+
+<div class="card">
+<h3>E-Shram Card</h3>
+</div>
+
+<div class="card">
+<h3>Labour Card</h3>
+</div>
+
+<div class="card">
+<h3>Jharsewa Services</h3>
+</div>
+
+</div>
+
+</div>
 
 </div>
 
 <!-- PAGE 7 -->
 
+<div class="slide">
+
 <div class="page">
 
-<h2>Photo Services</h2>
+<div class="title">Travel Services</div>
 
-<ul>
-<li>Passport Photo</li>
-<li>Photo Print</li>
-<li>Photo Editing</li>
-<li>Resume Making</li>
-</ul>
+<div class="grid">
+
+<div class="card">
+<h3>Train Ticket Booking</h3>
+<div class="price">₹40</div>
+</div>
+
+<div class="card">
+<h3>Flight Ticket Booking</h3>
+</div>
+
+<div class="card">
+<h3>Bus Ticket Booking</h3>
+</div>
+
+</div>
+
+</div>
 
 </div>
 
 <!-- PAGE 8 -->
 
+<div class="slide">
+
 <div class="page">
 
-<h2>Customized Gifts</h2>
+<div class="title">Printing Services</div>
 
-<ul>
-<li>Magic Mug</li>
-<li>T-Shirt Printing</li>
-<li>Mobile Cover</li>
-<li>Key Ring</li>
-<li>Photo Frame</li>
-</ul>
+<div class="grid">
+
+<div class="card">
+<h3>Color Print</h3>
+<div class="price">₹10/Page</div>
+</div>
+
+<div class="card">
+<h3>B/W Print</h3>
+<div class="price">₹2/Page</div>
+</div>
+
+<div class="card">
+<h3>Lamination</h3>
+<div class="price">₹30+</div>
+</div>
+
+<div class="card">
+<h3>Xerox</h3>
+<div class="price">₹2/Page</div>
+</div>
+
+</div>
+
+</div>
 
 </div>
 
 <!-- PAGE 9 -->
 
-<div class="page gallery">
+<div class="slide">
 
-<h2>Instagram Frames</h2>
+<div class="page">
 
-<img src="frame1 (1).jpg">
-<img src="frame1 (2).jpg">
-<img src="frame1 (3).jpg">
-<img src="frame1 (4).jpg">
+<div class="title">Customized Gifts</div>
+
+<div class="grid">
+
+<div class="card">
+<h3>Magic Mug</h3>
+<div class="price">₹299</div>
+</div>
+
+<div class="card">
+<h3>T-Shirt Printing</h3>
+<div class="price">₹399</div>
+</div>
+
+<div class="card">
+<h3>Mobile Cover Printing</h3>
+<div class="price">₹249</div>
+</div>
+
+<div class="card">
+<h3>Instagram Frame A4</h3>
+<div class="price">₹350</div>
+</div>
+
+<div class="card">
+<h3>Instagram Frame A3</h3>
+<div class="price">₹700</div>
+</div>
+
+</div>
+
+</div>
 
 </div>
 
 <!-- PAGE 10 -->
 
-<div class="page contact">
+<div class="slide">
 
-<h2>Contact Us</h2>
+<div class="page">
+
+<div class="title">Contact Us</div>
+
+<div style="text-align:center;">
+
+<h2>Mahato Net Cafe</h2>
 
 <p>📞 7992384657</p>
+
 <p>📞 7870499793</p>
 
-<a href="https://maps.app.goo.gl/FM5FHtCcrohPFFLq8">Location</a>
+<br>
 
 <a href="https://wa.me/917992384657">WhatsApp 1</a>
 
+<br><br>
+
 <a href="https://wa.me/917870499793">WhatsApp 2</a>
 
-</div>
+<br><br>
 
-</div>
-
-<div class="controls">
-
-<button onclick="prevPage()">◀ Prev</button>
-
-<button onclick="nextPage()">Next ▶</button>
+<a href="https://maps.app.goo.gl/FM5FHtCcrohPFFLq8">
+Open Location
+</a>
 
 </div>
 
 </div>
 
-<script src="script.js"></script>
+</div>
+<!-- NAVIGATION -->
+
+<div class="nav">
+
+<button onclick="prevSlide()">◀ Prev</button>
+
+<button onclick="nextSlide()">Next ▶</button>
+
+</div>
+
+<!-- FLOATING BUTTONS -->
+
+<div class="floating">
+
+<a href="tel:7992384657">📞</a>
+
+<a href="https://wa.me/917992384657">💬</a>
+
+</div>
+
+</div>
+
+<script>
+
+let slides=document.querySelectorAll(".slide");
+
+let current=0;
+
+function showSlide(index){
+
+slides.forEach(slide=>{
+slide.classList.remove("active");
+});
+
+slides[index].classList.add("active");
+
+}
+
+function nextSlide(){
+
+if(current < slides.length-1){
+
+current++;
+
+showSlide(current);
+
+}
+
+}
+
+function prevSlide(){
+
+if(current > 0){
+
+current--;
+
+showSlide(current);
+
+}
+
+}
+
+document.addEventListener("keydown",function(e){
+
+if(e.key==="ArrowRight"){
+nextSlide();
+}
+
+if(e.key==="ArrowLeft"){
+prevSlide();
+}
+
+});
+
+let startX=0;
+
+document.addEventListener("touchstart",e=>{
+
+startX=e.touches[0].clientX;
+
+});
+
+document.addEventListener("touchend",e=>{
+
+let endX=e.changedTouches[0].clientX;
+
+if(startX-endX>50){
+
+nextSlide();
+
+}
+
+if(endX-startX>50){
+
+prevSlide();
+
+}
+
+});
+
+showSlide(current);
+
+</script>
 
 </body>
 </html>
