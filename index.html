@@ -2,171 +2,23 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mahato Net Cafe</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-<style>
+<title>Mahato Net Cafe Flipbook</title>
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
-}
+<link rel="stylesheet" href="style.css">
 
-body{
-background:#f5f5f5;
-}
-
-header{
-background:#e53935;
-color:white;
-text-align:center;
-padding:20px;
-}
-
-.logo{
-width:120px;
-display:block;
-margin:auto;
-margin-bottom:10px;
-}
-
-header h1{
-font-size:42px;
-}
-
-header p{
-font-size:18px;
-margin-top:5px;
-}
-
-.hero{
-padding:20px;
-text-align:center;
-}
-
-.hero img{
-width:100%;
-max-width:800px;
-border-radius:12px;
-box-shadow:0 5px 15px rgba(0,0,0,.3);
-}
-
-.section{
-max-width:1200px;
-margin:auto;
-padding:30px 15px;
-}
-
-.section h2{
-text-align:center;
-color:#e53935;
-margin-bottom:20px;
-}
-
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:20px;
-}
-
-.card{
-background:white;
-padding:20px;
-border-radius:12px;
-box-shadow:0 3px 10px rgba(0,0,0,.1);
-}
-
-.card h3{
-color:#e53935;
-margin-bottom:10px;
-}
-
-.price{
-font-size:22px;
-font-weight:bold;
-color:green;
-margin-top:10px;
-}
-
-.welcome{
-background:white;
-padding:25px;
-border-radius:12px;
-text-align:center;
-box-shadow:0 3px 10px rgba(0,0,0,.1);
-}
-
-.contact{
-background:#222;
-color:white;
-text-align:center;
-padding:40px 20px;
-}
-
-.btn{
-display:inline-block;
-padding:12px 20px;
-margin:10px;
-background:#e53935;
-color:white;
-text-decoration:none;
-border-radius:8px;
-font-weight:bold;
-}
-
-.btn:hover{
-background:#c62828;
-}
-
-footer{
-background:black;
-color:white;
-text-align:center;
-padding:15px;
-}
-
-.whatsapp{
-position:fixed;
-bottom:20px;
-right:20px;
-width:60px;
-height:60px;
-background:#25D366;
-color:white;
-border-radius:50%;
-display:flex;
-justify-content:center;
-align-items:center;
-font-size:28px;
-text-decoration:none;
-z-index:999;
-}
-
-.call{
-position:fixed;
-bottom:90px;
-right:20px;
-width:60px;
-height:60px;
-background:#e53935;
-color:white;
-border-radius:50%;
-display:flex;
-justify-content:center;
-align-items:center;
-font-size:28px;
-text-decoration:none;
-z-index:999;
-}
-
-</style>
 </head>
-
 <body>
 
-<header>
+<div class="book-container">
+
+<div class="book">
+
+<!-- COVER -->
+
+<div class="page active">
+<div class="cover-page">
 
 <img src="Logo.png" class="logo">
 
@@ -174,187 +26,180 @@ z-index:999;
 
 <p>Digital Sewa & Customize Gifting</p>
 
-</header>
+<img src="shop photo.JPG" class="shop">
 
-<section class="hero">
+<button onclick="nextPage()">Open Catalogue</button>
 
-<img src="shop photo.JPG" alt="Mahato Net Cafe">
+</div>
+</div>
 
-</section>
+<!-- PAGE 1 -->
 
-<section class="section">
+<div class="page">
+<h2>Aadhaar Services</h2>
 
-<div class="welcome">
-
-<h2>Welcome To Mahato Net Cafe</h2>
-
-<p>
-Aadhaar Services, PAN Card, Voter ID, Income Certificate,
-Caste Certificate, Residential Certificate, Online Form Fill-up,
-Train Ticket Booking, Flight Ticket Booking, Printing,
-Lamination, Photo Printing, T-Shirt Printing,
-Customized Gifts and Instagram Photo Frames Available Here.
-</p>
+<ul>
+<li>New Aadhaar</li>
+<li>Aadhaar Update</li>
+<li>Mobile Link</li>
+<li>Address Correction</li>
+<li>PVC Aadhaar Card</li>
+</ul>
 
 </div>
 
-</section>
+<!-- PAGE 2 -->
 
-<section class="section">
+<div class="page">
 
-<h2>Popular Online Services</h2>
+<h2>PAN Services</h2>
 
-<div class="grid">
-
-<div class="card">
-<h3>Aadhaar Services</h3>
-<p>New Aadhaar, Update, Mobile Link, Address Correction</p>
-</div>
-
-<div class="card">
-<h3>PAN Card Services</h3>
-<p>New PAN, Correction, Reprint, e-PAN</p>
-</div>
-
-<div class="card">
-<h3>Voter ID Services</h3>
-<p>New Registration, Correction, Download</p>
-</div>
-
-<div class="card">
-<h3>Certificate Services</h3>
-<p>Income, Caste, Residential, Birth & Death Certificate</p>
-</div>
-
-<div class="card">
-<h3>Rail & Flight Ticket</h3>
-<p>Train Ticket Booking & Flight Ticket Booking</p>
-</div>
-
-<div class="card">
-<h3>Online Form Fill-up</h3>
-<p>Scholarship, Job Form, College Admission</p>
-</div>
+<ul>
+<li>New PAN Card</li>
+<li>PAN Correction</li>
+<li>ePAN Download</li>
+<li>Reprint PAN</li>
+</ul>
 
 </div>
 
-</section>
+<!-- PAGE 3 -->
 
-<section class="section">
+<div class="page">
+
+<h2>Certificate Services</h2>
+
+<ul>
+<li>Income Certificate</li>
+<li>Caste Certificate</li>
+<li>Residential Certificate</li>
+<li>Birth Certificate</li>
+<li>Death Certificate</li>
+</ul>
+
+</div>
+
+<!-- PAGE 4 -->
+
+<div class="page">
+
+<h2>CSC Services</h2>
+
+<ul>
+<li>Ayushman Card</li>
+<li>E-Shram Card</li>
+<li>Labour Card</li>
+<li>Pension Services</li>
+<li>Jharsewa Services</li>
+</ul>
+
+</div>
+
+<!-- PAGE 5 -->
+
+<div class="page">
+
+<h2>Travel Services</h2>
+
+<ul>
+<li>Rail Ticket Booking</li>
+<li>Flight Ticket Booking</li>
+<li>Bus Ticket Booking</li>
+<li>Hotel Booking</li>
+</ul>
+
+</div>
+
+<!-- PAGE 6 -->
+
+<div class="page">
 
 <h2>Printing Services</h2>
 
-<div class="grid">
-
-<div class="card">
-<h3>Color Print</h3>
-<div class="price">₹10 / Page</div>
-</div>
-
-<div class="card">
-<h3>Black & White Print</h3>
-<div class="price">₹2 / Page</div>
-</div>
-
-<div class="card">
-<h3>Lamination</h3>
-<div class="price">₹30 onwards</div>
-</div>
-
-<div class="card">
-<h3>Photo Print</h3>
-<div class="price">₹20 onwards</div>
-</div>
+<ul>
+<li>Color Print</li>
+<li>B/W Print</li>
+<li>Xerox</li>
+<li>Lamination</li>
+<li>Spiral Binding</li>
+</ul>
 
 </div>
 
-</section>
+<!-- PAGE 7 -->
 
-<section class="section">
+<div class="page">
 
-<h2>Customize Gifts</h2>
+<h2>Photo Services</h2>
 
-<div class="grid">
-
-<div class="card">
-<h3>Magic Mug Printing</h3>
-<p>Personalized Photo Mug Printing</p>
-<div class="price">₹299</div>
-</div>
-
-<div class="card">
-<h3>T-Shirt Printing</h3>
-<p>Custom Name, Photo & Logo Printing</p>
-<div class="price">₹399</div>
-</div>
-
-<div class="card">
-<h3>Mobile Cover Printing</h3>
-<p>Personalized Mobile Cover</p>
-<div class="price">₹249</div>
-</div>
-
-<div class="card">
-<h3>Key Ring Printing</h3>
-<p>Custom Photo Keychain</p>
-<div class="price">₹99</div>
-</div>
+<ul>
+<li>Passport Photo</li>
+<li>Photo Print</li>
+<li>Photo Editing</li>
+<li>Resume Making</li>
+</ul>
 
 </div>
 
-</section>
+<!-- PAGE 8 -->
 
-<section class="section">
+<div class="page">
 
-<h2>Trending Instagram Photo Frames</h2>
+<h2>Customized Gifts</h2>
 
-<div class="grid">
-
-<div class="card">
-<h3>A4 Size Frame</h3>
-<p>Birthday, Anniversary, Baby Welcome, Friendship, Couple & Custom Frame</p>
-<div class="price">₹350</div>
-</div>
-
-<div class="card">
-<h3>A3 Size Frame</h3>
-<p>Premium Instagram Style Photo Frame</p>
-<div class="price">₹700</div>
-</div>
+<ul>
+<li>Magic Mug</li>
+<li>T-Shirt Printing</li>
+<li>Mobile Cover</li>
+<li>Key Ring</li>
+<li>Photo Frame</li>
+</ul>
 
 </div>
 
-</section>
+<!-- PAGE 9 -->
 
-<section class="contact">
+<div class="page gallery">
+
+<h2>Instagram Frames</h2>
+
+<img src="frame1 (1).jpg">
+<img src="frame1 (2).jpg">
+<img src="frame1 (3).jpg">
+<img src="frame1 (4).jpg">
+
+</div>
+
+<!-- PAGE 10 -->
+
+<div class="page contact">
 
 <h2>Contact Us</h2>
 
-<p><strong>Mahato Net Cafe</strong></p>
-
-<br>
-
 <p>📞 7992384657</p>
+<p>📞 7870499793</p>
 
-<p>📍 Baliapur, Dhanbad, Jharkhand</p>
+<a href="https://maps.app.goo.gl/FM5FHtCcrohPFFLq8">Location</a>
 
-<a class="btn" href="tel:7992384657">Call Now</a>
+<a href="https://wa.me/917992384657">WhatsApp 1</a>
 
-<a class="btn" href="https://wa.me/917992384657">WhatsApp</a>
+<a href="https://wa.me/917870499793">WhatsApp 2</a>
 
-<a class="btn" href="https://maps.google.com">Location</a>
+</div>
 
-</section>
+</div>
 
-<footer>
+<div class="controls">
 
-© 2025 Mahato Net Cafe | All Rights Reserved
+<button onclick="prevPage()">◀ Prev</button>
 
-</footer>
+<button onclick="nextPage()">Next ▶</button>
 
-<a href="tel:7992384657" class="call">📞</a>
+</div>
 
-<a href="https://wa.me/917992384657" class="whatsapp">💬</a>
+</div>
+
+<script src="script.js"></script>
 
 </body>
 </html>
