@@ -1,13 +1,20 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Mahato Net Cafe</title>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mahato Net Cafe</title>
+
 <style>
-body{
-font-family:Arial,sans-serif;
+
+*{
 margin:0;
 padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
 background:#f5f5f5;
 }
 
@@ -15,43 +22,96 @@ header{
 background:#e53935;
 color:white;
 text-align:center;
-padding:20px;
+padding:30px 15px;
 }
 
-.logo{
-width:120px;
-border-radius:10px;
+header h1{
+font-size:40px;
+}
+
+header p{
+margin-top:10px;
+font-size:18px;
+}
+
+.hero{
+padding:20px;
+text-align:center;
+}
+
+.hero img{
+width:100%;
+max-width:1000px;
+border-radius:12px;
+box-shadow:0 5px 15px rgba(0,0,0,.2);
 }
 
 .section{
-background:white;
-margin:15px;
-padding:15px;
-border-radius:10px;
-box-shadow:0 2px 8px rgba(0,0,0,.1);
+padding:30px 20px;
+max-width:1200px;
+margin:auto;
 }
 
-h2{
+.section h2{
 color:#e53935;
+margin-bottom:20px;
+text-align:center;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+}
+
+.card{
+background:white;
+padding:20px;
+border-radius:12px;
+box-shadow:0 3px 10px rgba(0,0,0,.1);
+}
+
+.card h3{
+color:#e53935;
+margin-bottom:10px;
+}
+
+.price{
+font-size:22px;
+font-weight:bold;
+color:green;
+margin-top:10px;
+}
+
+.contact{
+background:#222;
+color:white;
+padding:30px;
+text-align:center;
 }
 
 .btn{
 display:inline-block;
+margin:10px;
 padding:12px 20px;
-background:green;
+background:#e53935;
 color:white;
 text-decoration:none;
-border-radius:5px;
-margin-top:10px;
+border-radius:8px;
+font-weight:bold;
+}
+
+.btn:hover{
+background:#c62828;
 }
 
 footer{
-background:#222;
+background:black;
 color:white;
 text-align:center;
 padding:15px;
-margin-top:20px;
 }
+
 </style>
 </head>
 
@@ -62,56 +122,156 @@ margin-top:20px;
 <p>Digital Sewa & Customize Gifting</p>
 </header>
 
-<div class="section">
-<h2>Welcome</h2>
+<section class="hero">
+<img src="https://i.imgur.com/Q8mVf7Y.jpeg" alt="Mahato Net Cafe">
+</section>
+
+<section class="section">
+<h2>Popular Online Services</h2>
+
+<div class="grid">
+
+<div class="card">
+<h3>Aadhaar Services</h3>
+<p>New Aadhaar, Update, Mobile Link, Address Correction</p>
+</div>
+
+<div class="card">
+<h3>PAN Card Services</h3>
+<p>New PAN, Correction, Reprint, e-PAN</p>
+</div>
+
+<div class="card">
+<h3>Voter ID Services</h3>
+<p>New Registration, Correction, Download</p>
+</div>
+
+<div class="card">
+<h3>Certificate Services</h3>
+<p>Income, Caste, Residential, Birth & Death Certificate</p>
+</div>
+
+<div class="card">
+<h3>Rail & Flight Ticket</h3>
+<p>Train Ticket Booking & Flight Ticket Booking</p>
+</div>
+
+<div class="card">
+<h3>Online Form Fill-up</h3>
+<p>Scholarship, Job Form, College Admission</p>
+</div>
+
+</div>
+</section>
+
+<section class="section">
+<h2>Printing Services</h2>
+
+<div class="grid">
+
+<div class="card">
+<h3>Color Print</h3>
+<div class="price">₹10 / Page</div>
+</div>
+
+<div class="card">
+<h3>Black & White Print</h3>
+<div class="price">₹2 / Page</div>
+</div>
+
+<div class="card">
+<h3>Lamination</h3>
+<div class="price">₹30 onwards</div>
+</div>
+
+<div class="card">
+<h3>Photo Print</h3>
+<div class="price">₹20 onwards</div>
+</div>
+
+</div>
+</section>
+
+<section class="section">
+<h2>Customize Gifts</h2>
+
+<div class="grid">
+
+<div class="card">
+<h3>Magic Mug Printing</h3>
+<p>Personalized Photo Mug Printing</p>
+<div class="price">₹299</div>
+</div>
+
+<div class="card">
+<h3>T-Shirt Printing</h3>
+<p>Custom Name, Photo & Logo Printing</p>
+<div class="price">₹399</div>
+</div>
+
+<div class="card">
+<h3>Mobile Cover Printing</h3>
+<p>Personalized Mobile Cover</p>
+<div class="price">₹249</div>
+</div>
+
+<div class="card">
+<h3>Key Ring Printing</h3>
+<p>Custom Photo Keychain</p>
+<div class="price">₹99</div>
+</div>
+
+</div>
+</section>
+
+<section class="section">
+<h2>Trending Instagram Photo Frames</h2>
+
+<div class="grid">
+
+<div class="card">
+<h3>A4 Size Frame</h3>
 <p>
-Mahato Net Cafe में आपका स्वागत है।
-यहाँ सभी Online Services, CSC Services,
-Printing, Lamination, Photo Editing और
-Customized Gift Items उपलब्ध हैं।
+Birthday Frame<br>
+Anniversary Frame<br>
+Baby Welcome Frame<br>
+Friendship Frame<br>
+Couple Frame<br>
+Custom Design Frame
 </p>
+<div class="price">₹350</div>
 </div>
 
-<div class="section">
-<h2>Popular Services</h2>
-
-<p>✔ Aadhaar Update</p>
-<p>✔ PAN Card</p>
-<p>✔ Voter ID</p>
-<p>✔ Income Certificate</p>
-<p>✔ Caste Certificate</p>
-<p>✔ Residential Certificate</p>
-<p>✔ Train Ticket Booking</p>
-<p>✔ Flight Ticket Booking</p>
-
-</div>
-
-<div class="section">
-<h2>Trending Instagram Photo Frame</h2>
-
-<p>A4 Size - ₹350</p>
-<p>A3 Size - ₹700</p>
-
+<div class="card">
+<h3>A3 Size Frame</h3>
 <p>
-Birthday, Anniversary, Baby Welcome,
-Friendship, Couple & Custom Frames Available.
+Premium Instagram Style Frame<br>
+High Quality Print & Frame
 </p>
+<div class="price">₹700</div>
 </div>
 
-<div class="section">
+</div>
+</section>
+
+<section class="contact">
+
 <h2>Contact Us</h2>
+
+<p><b>Mahato Net Cafe</b></p>
 
 <p>📞 7992384657</p>
 
-<a class="btn"
-href="https://wa.me/917992384657">
-WhatsApp Now
-</a>
+<p>📍 Baliapur, Dhanbad, Jharkhand</p>
 
-</div>
+<a class="btn" href="tel:7992384657">Call Now</a>
+
+<a class="btn" href="https://wa.me/917992384657">WhatsApp</a>
+
+</section>
 
 <footer>
-© Mahato Net Cafe
+© 2025 Mahato Net Cafe | All Rights Reserved
 </footer>
 
 </body>
