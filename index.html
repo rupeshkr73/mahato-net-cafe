@@ -315,6 +315,31 @@ canvas#scratchCanvas{display:block;touch-action:none;}
 </div>
 
 <script>
+  const API_URL =
+"https://script.google.com/macros/s/AKfycbwsSrInD9P1zKcaXh5kUAMyOYsZAFUPKwuUq8WqlchgNJbhjYLg0dPafIqZu_saf8TRDA/exec";
+
+let adminData = {};
+
+async function loadAdminData(){
+
+  try{
+
+    const res = await fetch(API_URL);
+
+    adminData = await res.json();
+
+    console.log(adminData);
+
+  }catch(err){
+
+    console.log("Admin Panel Error",err);
+
+  }
+
+}
+
+loadAdminData();
+  
 const PHONE1='7992384657',PHONE2='7870499793';
 const MAP='https://maps.app.goo.gl/FM5FHtCcrohPFFLq8';
 const G_REVIEW='https://g.page/r/CdoMrhFEbBOhEAI/review';
