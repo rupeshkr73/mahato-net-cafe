@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Mahato Net Cafe — Digital Catalogue</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+:root{--g1:#1a7a3a;--g2:#22a34e;--g3:#2ecc6a;--gl:#e8f7ed;--gp:#f3fbf6;
+  --white:#fff;--dark:#152b1e;--mid:#3d6b4f;--muted:#6a917a;--border:#b8dfc6;--gold:#f5a623;--red:#e53935;}
+html,body{height:100%;overflow:hidden;touch-action:none;}
+body{font-family:'Nunito',sans-serif;
+  background:radial-gradient(ellipse at 30% 20%,#b8dfc6,#d4edda 40%,#e8f5e9 100%);
+  display:flex;align-items:center;justify-content:center;min-height:100vh;}
+.shell{width:100%;max-width:390px;height:100svh;max-height:720px;
+  display:flex;flex-direction:column;padding:8px 10px 10px;position:relative;}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:0 2px 8px;flex-shrink:0;gap:6px;}
+.brand{display:flex;align-items:center;gap:8px;flex:1;min-width:0;}
+.brand-icon{width:34px;height:34px;border-radius:9px;overflow:hidden;flex-shrink:0;
+  box-shadow:0 3px 10px rgba(26,122,58,.3);background:var(--g1);}
+.brand-icon img{width:100%;height:100%;object-fit:cover;}
+.brand-text{font-family:'Baloo 2',cursive;font-size:12px;font-weight:800;color:var(--dark);line-height:1;min-width:0;}
+.brand-text small{font-size:9px;font-weight:600;color:var(--muted);font-family:'Nunito',sans-serif;display:block;}
+.home-btn{width:30px;height:30px;border-radius:50%;background:#fff;border:1.5px solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer;flex-shrink:0;
+  box-shadow:0 2px 6px rgba(0,0,0,.08);transition:transform .12s;}
+.home-btn:active{transform:scale(.85);}
+.home-btn.invisible{opacity:0;pointer-events:none;}
+.pager{background:var(--g1);color:#fff;font-size:10.5px;font-weight:700;padding:4px 9px;border-radius:11px;white-space:nowrap;flex-shrink:0;}
+
+/* STAGE */
+.stage{flex:1;position:relative;overflow:hidden;border-radius:4px;}
+.book-shadow{position:absolute;inset:0;border-radius:3px 16px 16px 3px;
+  box-shadow:3px 5px 25px rgba(0,0,0,.18),0 2px 0 #c0dcc8;pointer-events:none;z-index:0;}
+
+/* PAGE — no transition on .page itself, animation handles it */
+.page{position:absolute;inset:0;background:#fff;border-radius:3px 16px 16px 3px;
+  border-left:5px solid var(--g1);overflow:hidden;display:flex;flex-direction:column;z-index:2;}
+.page::before{content:'';position:absolute;left:0;top:0;bottom:0;width:18px;
+  background:linear-gradient(to right,rgba(0,0,0,.06),transparent);z-index:10;pointer-events:none;}
+
+/* CORNER PEEL — the secret: both pages animate simultaneously */
+/* Outgoing page: slides+scales toward top-right corner */
+.page.going-fwd{
+  z-index:5;
+  animation:goFwd .38s cubic-bezier(.55,.0,.45,1) forwards;
+}
+/* Incoming page: expands from bottom-left corner */
+.page.coming-fwd{
+  z-index:4;
+  animation:comeFwd .38s cubic-bezier(.55,.0,.45,1) forwards;
+}
+.page.going-back{
+  z-index:5;
+  animation:goBack .38s cubic-bezier(.55,.0,.45,1) forwards;
+}
+.page.coming-back{
+  z-index:4;
+  animation:comeBack .38s cubic-bezier(.55,.0,.45,1) forwards;
+}
+
+/* Outgoing: page curls away from bottom-right, shrinking to that corner */
+@keyframes goFwd{
+  0%  {clip-path:polygon(0 0,100% 0,100% 100%,0 100%);transform:translateX(0) translateY(0);}
+  50% {clip-path:polygon(0 0,100% 0,85% 85%,0 100%);transform:translateX(4px) translateY(-2px);}
+  100%{clip-path:polygon(80% 0,100% 0,100% 20%,80% 0);transform:translateX(0) translateY(0);}
+}
+/* Incoming: page unfolds from top-left corner */
+@keyframes comeFwd{
+  0%  {clip-path:polygon(0 0,20% 0,0 20%,0 100%);transform:translateX(0);}
+  50% {clip-path:polygon(0 0,100% 0,15% 85%,0 100%);transform:translateX(-3px);}
+  100%{clip-path:polygon(0 0,100% 0,100% 100%,0 100%);transform:translateX(0);}
+}
+@keyframes goBack{
+  0%  {clip-path:polygon(0 0,100% 0,100% 100%,0 100%);}
+  50% {clip-path:polygon(0 0,100% 0,100% 100%,15% 85%);}
+  100%{clip-path:polygon(0 0,20% 0,0 20%,0 0);}
+}
+@keyframes comeBack{
+  0%  {clip-path:polygon(80% 0,100% 0,100% 20%,80% 0);}
+  50% {clip-path:polygon(0 0,100% 0,85% 85%,0 100%);}
+  100%{clip-path:polygon(0 0,100% 0,100% 100%,0 100%);}
+}
+
+/* subtle corner curl on active page */
+.page.is-active::after{content:'';position:absolute;bottom:0;right:0;width:26px;height:26px;
+  background:linear-gradient(225deg,#c8e6cf 40%,transparent 60%);border-radius:13px 0 16px 0;
+  z-index:20;pointer-events:none;animation:curl 3s ease-in-out infinite;}
+@keyframes curl{0%,100%{opacity:.4;width:24px;height:24px;}50%{opacity:.9;width:30px;height:30px;}}
+
+.ribbon{height:7px;background:linear-gradient(90deg,var(--g1),var(--g2),var(--g3));flex-shrink:0;}
+
+/* COVER */
+.cover-body{flex:1;display:flex;flex-direction:column;align-items:center;
+  padding:.7rem 1rem .35rem;overflow-y:auto;gap:.38rem;
+  background:linear-gradient(170deg,#f0fbf5,#fff 55%);}
+.cover-badge{background:var(--gl);color:var(--g1);font-size:9px;font-weight:800;
+  letter-spacing:.07em;text-transform:uppercase;padding:3px 10px;border-radius:14px;border:1px solid var(--border);}
+.cover-logo{width:62px;height:62px;border-radius:14px;overflow:hidden;flex-shrink:0;
+  box-shadow:0 5px 18px rgba(26,122,58,.25);border:2px solid var(--border);}
+.cover-logo img{width:100%;height:100%;object-fit:cover;}
+.cover-shop-photo{width:100%;border-radius:10px;overflow:hidden;border:2px solid var(--border);flex-shrink:0;}
+.cover-shop-photo img{width:100%;height:100px;object-fit:cover;display:block;}
+.cover-title{font-family:'Baloo 2',cursive;font-size:1.3rem;font-weight:900;color:var(--dark);text-align:center;line-height:1.1;}
+.cover-sub{font-size:10px;color:var(--muted);text-align:center;line-height:1.5;}
+.cover-nums{display:flex;gap:7px;width:100%;}
+.num-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:4px;
+  background:var(--g1);color:#fff;border-radius:10px;padding:8px 3px;
+  font-size:10.5px;font-weight:800;text-decoration:none;box-shadow:0 3px 10px rgba(26,122,58,.25);}
+.cover-info-row{display:grid;grid-template-columns:1fr 1fr;gap:5px;width:100%;}
+.cinfo{background:var(--gl);border:1px solid var(--border);border-radius:9px;padding:5px 4px;text-align:center;text-decoration:none;}
+.cinfo-icon{font-size:14px;}
+.cinfo-label{font-size:8px;font-weight:700;color:var(--muted);margin-top:1px;display:block;}
+.cinfo-val{font-size:9px;font-weight:800;color:var(--dark);display:block;line-height:1.3;}
+.promo-banner{width:100%;background:linear-gradient(135deg,#EA4335,#c62828);
+  border-radius:11px;padding:9px 11px;display:flex;align-items:center;gap:9px;
+  text-decoration:none;cursor:pointer;border:none;box-shadow:0 4px 14px rgba(234,67,53,.3);font-family:inherit;}
+.promo-star{font-size:1.5rem;flex-shrink:0;}
+.promo-text{flex:1;}
+.promo-title{font-family:'Baloo 2',cursive;font-size:12px;font-weight:900;color:#fff;line-height:1.1;}
+.promo-sub{font-size:9px;color:rgba(255,255,255,.85);margin-top:1px;}
+.promo-arrow{color:#fff;font-size:18px;flex-shrink:0;}
+.cover-hint{font-size:10px;color:var(--g1);font-weight:700;display:flex;align-items:center;gap:4px;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+
+/* FRAMES */
+.photo-cat-body{flex:1;overflow:hidden;display:flex;flex-direction:column;}
+.section-head{padding:.65rem .9rem .4rem;background:var(--gp);border-bottom:1px solid var(--border);flex-shrink:0;}
+.sec-cat{font-size:9px;font-weight:700;color:var(--g1);letter-spacing:.07em;text-transform:uppercase;margin-bottom:2px;}
+.sec-title{font-family:'Baloo 2',cursive;font-size:1.05rem;font-weight:900;color:var(--dark);line-height:1.1;}
+.sec-sub{font-size:9.5px;color:var(--muted);margin-top:1px;}
+.frames-grid{flex:1;overflow-y:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:5px;padding:6px;}
+.frame-item{border-radius:8px;overflow:hidden;border:2px solid var(--border);
+  aspect-ratio:3/4;position:relative;background:var(--gl);cursor:pointer;}
+.frame-item img{width:100%;height:100%;object-fit:cover;display:block;}
+.frame-price-tag{position:absolute;bottom:0;left:0;right:0;
+  background:linear-gradient(transparent,rgba(26,122,58,.88));
+  color:#fff;font-size:9.5px;font-weight:700;padding:12px 4px 3px;text-align:center;}
+
+/* FRAME LIGHTBOX */
+.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:8888;
+  display:none;align-items:center;justify-content:center;padding:16px;}
+.lightbox.open{display:flex;}
+.lb-inner{position:relative;max-width:340px;width:100%;}
+.lb-img{width:100%;border-radius:14px;display:block;box-shadow:0 8px 40px rgba(0,0,0,.5);}
+.lb-price{text-align:center;color:#fff;font-family:'Baloo 2',cursive;font-size:1.2rem;font-weight:900;margin-top:10px;}
+.lb-close{position:absolute;top:-12px;right:-12px;width:34px;height:34px;border-radius:50%;
+  background:#fff;border:none;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 3px 10px rgba(0,0,0,.3);font-weight:700;color:var(--dark);}
+
+/* SVC */
+.svc-body{flex:1;overflow:hidden;display:flex;flex-direction:column;}
+.svc-head{padding:.65rem .9rem .4rem;background:var(--gp);border-bottom:1px solid var(--border);flex-shrink:0;}
+.svc-cat{font-size:9px;font-weight:700;color:var(--g1);letter-spacing:.07em;text-transform:uppercase;margin-bottom:2px;}
+.svc-title{font-family:'Baloo 2',cursive;font-size:1.05rem;font-weight:900;color:var(--dark);line-height:1.15;}
+.svc-content{flex:1;overflow-y:auto;padding:.4rem .85rem .35rem;}
+.svc-item{border:1px solid var(--border);border-radius:9px;padding:7px 9px;margin-bottom:5px;
+  background:#fff;display:flex;gap:7px;align-items:flex-start;}
+.svc-emoji{font-size:1.45rem;flex-shrink:0;line-height:1;}
+.svc-right{flex:1;}
+.svc-name{font-size:11.5px;font-weight:800;color:var(--dark);line-height:1.2;}
+.svc-price{font-family:'Baloo 2',cursive;font-size:.9rem;font-weight:900;color:var(--g1);margin-top:1px;}
+.svc-desc{font-size:9.5px;color:var(--muted);margin-top:2px;line-height:1.5;}
+.svc-docs{margin-top:3px;}
+.doc-row{display:flex;gap:4px;font-size:9px;color:var(--muted);padding:1px 0;align-items:flex-start;}
+.doc-dot{width:4px;height:4px;border-radius:50%;background:var(--g2);flex-shrink:0;margin-top:4px;}
+
+.pg-footer{padding:.45rem .85rem;border-top:1px solid var(--border);background:var(--gp);display:flex;gap:6px;flex-shrink:0;}
+.wa-btn,.wa-btn2{flex:1;display:flex;align-items:center;justify-content:center;gap:4px;
+  padding:8px 3px;border-radius:18px;font-size:10px;font-weight:800;text-decoration:none;white-space:nowrap;}
+.wa-btn{background:#25D366;color:#fff;box-shadow:0 3px 8px rgba(37,211,102,.3);}
+.wa-btn2{background:#128C7E;color:#fff;box-shadow:0 3px 8px rgba(18,140,126,.25);}
+
+.ccard{background:var(--gp);border:1px solid var(--border);border-radius:9px;
+  padding:7px 9px;display:flex;align-items:flex-start;gap:7px;margin-bottom:5px;}
+.ccard-icon{font-size:1.1rem;flex-shrink:0;}
+.ccard-lbl{font-size:8.5px;font-weight:700;color:var(--g1);letter-spacing:.06em;text-transform:uppercase;margin-bottom:1px;}
+.ccard-val{font-size:11px;font-weight:700;color:var(--dark);line-height:1.45;}
+.ccard-val a{color:var(--g1);text-decoration:none;}
+.map-btn{display:block;text-align:center;background:var(--gl);border:1px solid var(--border);
+  border-radius:9px;padding:7px;font-size:11px;font-weight:700;color:var(--g1);text-decoration:none;margin-bottom:5px;}
+
+.about-body{flex:1;overflow-y:auto;padding:.5rem .85rem;}
+.about-shop-title{font-family:'Baloo 2',cursive;font-size:1rem;font-weight:900;color:var(--dark);margin-bottom:5px;}
+.about-desc{font-size:9.5px;color:var(--mid);line-height:1.7;margin-bottom:8px;}
+.owner-card{border:1px solid var(--border);border-radius:10px;padding:9px;background:#fff;margin-bottom:7px;display:flex;gap:9px;align-items:flex-start;}
+.owner-photo{width:50px;height:50px;border-radius:9px;object-fit:cover;border:2px solid var(--border);flex-shrink:0;background:var(--gl);}
+.owner-ph-ph{width:50px;height:50px;border-radius:9px;background:var(--gl);display:none;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;border:2px solid var(--border);}
+.owner-name{font-family:'Baloo 2',cursive;font-size:12.5px;font-weight:900;color:var(--dark);}
+.owner-role{font-size:9px;font-weight:700;color:var(--g1);margin-bottom:2px;}
+.owner-bio{font-size:9px;color:var(--muted);line-height:1.6;}
+.owner-edu{font-size:8.5px;color:var(--mid);font-weight:700;margin-top:2px;}
+
+.review-body{flex:1;overflow-y:auto;display:flex;flex-direction:column;align-items:center;
+  padding:.7rem .95rem;gap:.55rem;background:linear-gradient(170deg,#f0fbf5,#fff 60%);}
+.review-title{font-family:'Baloo 2',cursive;font-size:1.1rem;font-weight:900;color:var(--dark);text-align:center;}
+.review-sub{font-size:10.5px;color:var(--muted);text-align:center;line-height:1.6;max-width:290px;}
+.review-stars-big{font-size:1.7rem;letter-spacing:3px;color:var(--gold);}
+.rbtn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:11px;
+  border-radius:21px;font-size:12.5px;font-weight:800;text-decoration:none;color:#fff;
+  transition:transform .12s;border:none;cursor:pointer;font-family:inherit;}
+.rbtn:active{transform:scale(.97);}
+.rbtn-google{background:#EA4335;box-shadow:0 4px 14px rgba(234,67,53,.3);}
+.rbtn-wa{background:#25D366;box-shadow:0 4px 10px rgba(37,211,102,.3);}
+.review-note{font-size:9.5px;color:var(--muted);text-align:center;background:var(--gl);
+  border:1px solid var(--border);border-radius:9px;padding:6px 9px;line-height:1.6;width:100%;}
+.review-note strong{color:var(--g1);}
+.review-shop-info{width:100%;display:flex;flex-direction:column;gap:4px;}
+.rinfo-row{display:flex;align-items:flex-start;gap:6px;background:var(--gp);
+  border:1px solid var(--border);border-radius:8px;padding:6px 8px;}
+.rinfo-icon{font-size:1rem;flex-shrink:0;}
+.rinfo-lbl{font-size:8px;font-weight:700;color:var(--g1);text-transform:uppercase;letter-spacing:.05em;}
+.rinfo-val{font-size:10.5px;font-weight:700;color:var(--dark);line-height:1.45;}
+.rinfo-val a{color:var(--g1);text-decoration:none;}
+
+/* SCRATCH OVERLAY */
+.scratch-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);
+  display:none;align-items:center;justify-content:center;z-index:9999;padding:16px;
+  backdrop-filter:blur(5px);}
+.scratch-overlay.open{display:flex;}
+.scratch-box{background:#fff;border-radius:20px;padding:1.3rem;max-width:310px;width:100%;
+  text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.35);position:relative;}
+.scratch-x{position:absolute;top:10px;right:10px;width:30px;height:30px;border-radius:50%;
+  background:var(--gl);border:1.5px solid var(--border);font-size:16px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--mid);}
+.scratch-title{font-family:'Baloo 2',cursive;font-size:1.2rem;font-weight:900;color:var(--dark);margin-bottom:4px;}
+.scratch-sub{font-size:11px;color:var(--muted);margin-bottom:10px;line-height:1.5;}
+.scratch-canvas-wrap{position:relative;border-radius:10px;overflow:hidden;
+  box-shadow:0 4px 16px rgba(0,0,0,.15);margin-bottom:8px;}
+canvas#scratchCanvas{display:block;touch-action:none;}
+.scratch-prize-reveal{position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;background:linear-gradient(135deg,#fffde7,#fff9c4);pointer-events:none;}
+.scratch-prize-emoji{font-size:2.2rem;}
+.scratch-prize-text{font-family:'Baloo 2',cursive;font-size:1.3rem;font-weight:900;color:var(--g1);margin-top:3px;}
+.scratch-instructions{font-size:10.5px;color:var(--mid);line-height:1.55;margin-bottom:10px;
+  background:var(--gl);border-radius:8px;padding:7px 10px;border:1px solid var(--border);}
+.scratch-instructions strong{color:var(--g1);}
+.scratch-close-btn{background:var(--g1);color:#fff;border:none;border-radius:16px;
+  padding:9px 22px;font-size:12.5px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;}
+
+/* HINT */
+.hint{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);
+  background:rgba(26,122,58,.88);color:#fff;font-size:10px;padding:4px 11px;
+  border-radius:10px;opacity:0;transition:opacity .4s;pointer-events:none;white-space:nowrap;z-index:99;}
+.hint.show{opacity:1;}
+
+/* BOTTOM NAV */
+.bottom-nav{display:flex;align-items:center;justify-content:space-between;padding:6px 2px 3px;flex-shrink:0;}
+.nbtn{width:42px;height:42px;border-radius:50%;background:#fff;border:1.5px solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:17px;cursor:pointer;user-select:none;
+  box-shadow:0 2px 8px rgba(0,0,0,.07);transition:transform .12s,background .12s;}
+.nbtn:active{transform:scale(.87);background:var(--gl);}
+.nbtn.off{opacity:.25;pointer-events:none;}
+.nbtn-next{background:var(--g1);border-color:var(--g1);box-shadow:0 4px 12px rgba(26,122,58,.3);}
+.dots{display:flex;gap:3px;align-items:center;flex-wrap:wrap;justify-content:center;max-width:240px;}
+.dot{width:5.5px;height:5.5px;border-radius:50%;background:var(--border);cursor:pointer;transition:all .25s;}
+.dot.on{background:var(--g1);transform:scale(1.5);box-shadow:0 0 0 2px rgba(26,122,58,.2);}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="topbar">
+    <div class="brand">
+      <div class="brand-icon">
+        <img src="https://rupeshkr73.github.io/mahato-net-cafe/Logo.png" onerror="this.parentElement.style.background='#1a7a3a';this.style.display='none'">
+      </div>
+      <div class="brand-text">Mahato Net Cafe<small>Digital Catalogue</small></div>
+    </div>
+    <div class="home-btn invisible" id="homeBtn" onclick="goHome()">&#127968;</div>
+    <div class="pager" id="pgr">1 / 13</div>
+  </div>
+
+  <div class="stage" id="stage">
+    <div class="book-shadow"></div>
+    <div class="page is-active" id="pageEl"></div>
+    <div class="hint" id="hint">&#128073; Swipe to flip pages</div>
+  </div>
+
+  <div class="bottom-nav">
+    <div class="nbtn off" id="prevBtn" onclick="go(-1)">&#9664;</div>
+    <div class="dots" id="dots"></div>
+    <div class="nbtn nbtn-next" id="nextBtn" onclick="go(1)">&#9654;</div>
+  </div>
+</div>
+
+<!-- LIGHTBOX for frames -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <div class="lb-inner" onclick="event.stopPropagation()">
+    <button class="lb-close" onclick="closeLightbox()">&#10005;</button>
+    <img class="lb-img" id="lbImg" src="">
+    <div class="lb-price" id="lbPrice"></div>
+  </div>
+</div>
+
+<!-- SCRATCH OVERLAY -->
+<div class="scratch-overlay" id="scratchOverlay">
+  <div class="scratch-box">
+    <div class="scratch-x" onclick="closeScratch()">&#10005;</div>
+    <div class="scratch-title">&#127873; Scratch &amp; Win!</div>
+    <div class="scratch-sub">5&#11088; review dene ke liye shukriya! Ab scratch karein.</div>
+    <div class="scratch-canvas-wrap">
+      <div class="scratch-prize-reveal" id="prizeReveal">
+        <div class="scratch-prize-emoji">&#129395;</div>
+        <div class="scratch-prize-text" id="prizeText"></div>
+      </div>
+      <canvas id="scratchCanvas" width="278" height="130"></canvas>
+    </div>
+    <div class="scratch-instructions">
+      <strong>&#128247; Screenshot lein</strong> aur Mahato Net Cafe mein dikhayein — apna <strong>Free Xerox</strong> payen!<br>
+      <strong>Take screenshot of this coupon and show to Mahato Net Cafe to get your Free Xerox.</strong>
+    </div>
+    <button class="scratch-close-btn" onclick="closeScratch()">Close &#10003;</button>
+  </div>
+</div>
+
+<script>
+const PHONE1='7992384657',PHONE2='7870499793';
+const MAP='https://maps.app.goo.gl/FM5FHtCcrohPFFLq8';
+const G_REVIEW='https://g.page/r/CdoMrhFEbBOhEAI/review';
+const BASE='https://rupeshkr73.github.io/mahato-net-cafe/';
+const LOGO=BASE+'Logo.png';
+const $=id=>document.getElementById(id);
+
+/* ── helpers ── */
+function item(e,n,p,d,docs=[]){
+  const dd=docs.map(t=>`<div class="doc-row"><div class="doc-dot"></div><span>${t}</span></div>`).join('');
+  return `<div class="svc-item"><div class="svc-emoji">${e}</div><div class="svc-right">
+<div class="svc-name">${n}</div><div class="svc-price">${p}</div>
+${d?`<div class="svc-desc">${d}</div>`:''}${dd?`<div class="svc-docs">${dd}</div>`:''}</div></div>`;
+}
+function svcPage(cat,ico,body){
+  return `<div class="ribbon"></div><div class="svc-body">
+<div class="svc-head"><div class="svc-cat">${ico} ${cat}</div><div class="svc-title">${cat}</div></div>
+<div class="svc-content">${body}</div></div>${foot()}`;
+}
+function foot(){
+  return `<div class="pg-footer">
+<a href="https://wa.me/91${PHONE1}" class="wa-btn">&#128172; ${PHONE1}</a>
+<a href="https://wa.me/91${PHONE2}" class="wa-btn2">&#128172; ${PHONE2}</a></div>`;
+}
+
+/* FRAME DATA — matches actual GitHub filenames */
+const FRAME_DATA=[
+  {file:'frame1 (1).jpg', price:'A4 \u20b9350'},
+  {file:'frame1 (2).jpg', price:'A4 \u20b9350'},
+  {file:'frame1 (3).jpg', price:'A3 \u20b9700'},
+  {file:'frame1 (4).jpg', price:'A4 \u20b9350'},
+  {file:'frame1 (5).JPG', price:'A3 \u20b9700'},
+  {file:'frame1 (6).jpg', price:'A4 \u20b9350'},
+  {file:'frame1 (7).jpg', price:'A4 \u20b9350'},
+  {file:'frame1 (8).jpg', price:'A3 \u20b9700'},
+  {file:'frame1 (9).jpg', price:'A4 \u20b9350'},
+  {file:'frame1 (10).jpg',price:'A4 \u20b9350'},
+];
+
+/* ── PAGES ── */
+function p0(){
+  return `<div class="ribbon"></div><div class="cover-body">
+<div class="cover-badge">&#128241; Digital Service Catalogue</div>
+<div class="cover-logo"><img src="${LOGO}" onerror="this.parentElement.innerHTML='&#9749;';this.parentElement.style.cssText+='display:flex;align-items:center;justify-content:center;font-size:32px;background:#1a7a3a;color:#fff'"></div>
+<div class="cover-shop-photo"><img src="${BASE}shop%20photo.JPG" onerror="this.parentElement.style.display='none'"></div>
+<div class="cover-title">Mahato Net Cafe</div>
+<div class="cover-sub">Digital Seva &bull; Printing &bull; Customized Gifts<br>Baliapur, Dhanbad, Jharkhand</div>
+<div class="cover-nums">
+  <a href="tel:${PHONE1}" class="num-btn">&#128222; ${PHONE1}</a>
+  <a href="tel:${PHONE2}" class="num-btn">&#128222; ${PHONE2}</a>
+</div>
+<div class="cover-info-row">
+  <a href="${MAP}" target="_blank" class="cinfo"><div class="cinfo-icon">&#128205;</div><span class="cinfo-label">Google Maps</span><span class="cinfo-val">Get Directions</span></a>
+  <div class="cinfo"><div class="cinfo-icon">&#128336;</div><span class="cinfo-label">Open</span><span class="cinfo-val">Mon&ndash;Sat 9AM&ndash;9PM</span></div>
+</div>
+<button class="promo-banner" onclick="openScratch()">
+  <div class="promo-star">&#11088;</div>
+  <div class="promo-text"><div class="promo-title">Rate us 5&#11088; &amp; Win Surprise!</div><div class="promo-sub">Scratch card milega &mdash; Free Xerox win karein</div></div>
+  <div class="promo-arrow">&rsaquo;</div>
+</button>
+<div class="cover-hint">&#128073; Swipe ya &#9654; tap karke services dekhein</div>
+</div>`;
+}
+
+function p1(){
+  const items=FRAME_DATA.map((f,i)=>{
+    const url=BASE+encodeURIComponent(f.file);
+    return `<div class="frame-item" onclick="openLightbox('${url}','${f.price}')">
+<img src="${url}" onerror="this.parentElement.style.opacity='.4'">
+<div class="frame-price-tag">${f.price}</div></div>`;
+  }).join('');
+  return `<div class="ribbon"></div><div class="photo-cat-body">
+<div class="section-head"><div class="sec-cat">&#128444; Photo Catalogue</div>
+<div class="sec-title">Instagram Viral Frames</div>
+<div class="sec-sub">Tap photo to preview &bull; A4 &#8377;350 &bull; A3 &#8377;700</div></div>
+<div class="frames-grid">${items}</div>
+</div>${foot()}`;
+}
+
+function p2(){return svcPage('Aadhaar Services','&#128282;',
+  item('&#128282;','Aadhaar Update','&#8377;75','Name, DOB, Gender, Address, Mobile, Email correction via UIDAI.',['Original supporting doc required','Biometric done on-spot'])+
+  item('&#128424;','Aadhaar Print (Colour)','&#8377;30','Fresh colour print of Aadhaar.',['Aadhaar number or ePDF required'])+
+  item('&#128179;','PVC Aadhaar Card','&#8377;100','Wallet-size PVC — like a debit card.',['Ordered via UIDAI portal','Delivered in 7–10 days'])+
+  item('&#128241;','Aadhaar Mobile Link','&#8377;50','Link/update mobile in Aadhaar.',['Aadhaar + active mobile'])
+);}
+function p3(){return svcPage('PAN Card & Voter ID','&#128196;',
+  item('&#128196;','PAN Card Apply','&#8377;200','New PAN. Three proofs mandatory: POI, POD & POA.',['POI: Aadhaar/Voter ID/Passport','POD: Birth Cert/Class 10','POA: Aadhaar/Bank Statement','Name must match Aadhaar exactly'])+
+  item('&#9999;&#65039;','PAN Correction','&#8377;250','Correct name, DOB or address.',['PAN copy + supporting doc'])+
+  item('&#128442;','Voter ID Apply','&#8377;100','New Voter ID via NVSP portal.',['Age 18+ required','Address proof + photo'])+
+  item('&#128295;','Voter ID Correction','&#8377;100','Fix name, address, DOB or photo.',['EPIC number + supporting doc'])
+);}
+function p4(){return svcPage('Certificates','&#128220;',
+  item('&#128220;','Income Certificate','&#8377;100','Official cert via Jharsewa/e-District.',['Aadhaar + income self-declaration'])+
+  item('&#128203;','Caste Certificate','&#8377;100','OBC/SC/ST cert.',['Aadhaar + existing caste doc'])+
+  item('&#127968;','Residential Certificate','&#8377;100','Jharkhand domicile proof.',['Aadhaar + address proof'])+
+  item('&#128118;','Birth Certificate','&#8377;150','Newborn or older registration.',['Hospital record / ANM paper','Parents Aadhaar'])+
+  item('&#128195;','Death Certificate','&#8377;150','For property, insurance & pension.',['Hospital death report','Family Aadhaar'])
+);}
+function p5(){return svcPage('Govt / CSC / Jharsewa','&#127963;&#65039;',
+  item('&#127963;&#65039;','Jharsewa Services','&#8377;100+','All JH state services.',['Aadhaar mandatory'])+
+  item('&#127973;','Ayushman Card','Free/Nominal','PMJAY health card.',['Aadhaar + ration card'])+
+  item('&#128119;','E-Shram Card','Free','Unorganised worker registration.',['Aadhaar + bank details'])+
+  item('&#127807;','PM Kisan','Free','Registration & status check.',['Aadhaar + land records'])+
+  item('&#128706;','Passport Apply','&#8377;300','New/renewal via Passport Seva.',['Aadhaar, DOB proof, address proof'])
+);}
+function p6(){return svcPage('Travel & Tickets','&#128642;',
+  item('&#128642;','Train Ticket','&#8377;40','IRCTC Normal only (No Tatkal).',['Passenger name, age, ID','Travel date & train'])+
+  item('&#128652;','Bus Ticket','&#8377;50','JSRTC or private — RedBus/AbhiBus.',['Passenger details + route'])+
+  item('&#9992;&#65039;','Flight Ticket','&#8377;300','Domestic — best fare search.',['Name as per govt ID'])+
+  item('&#128248;','Passport Photo','&#8377;20 (4pcs) / &#8377;40 (10pcs)','Instant govt-spec photos.',['Done in 5 mins'])
+);}
+function p7(){return svcPage('Payments, Recharge & Banking','&#128179;',
+  item('&#128241;','Mobile Recharge','As Per Plan','Jio, Airtel, BSNL, Vi.',[])+
+  item('&#128225;','DTH Recharge','As Per Plan','Tata Sky, Dish TV, Airtel DTH.',['Customer ID required'])+
+  item('&#9889;','Electricity Bill','&#8377;20','JBVNL & others. Instant receipt.',['Consumer number + amount'])+
+  item('&#128184;','Money Transfer','As Per Amount','IMPS/NEFT to any bank.',['Account + IFSC + ID proof'])+
+  item('&#127967;','AEPS Withdrawal','Commission','Aadhaar-based — no ATM needed.',['Aadhaar-linked account','Fingerprint biometric'])
+);}
+function p8(){return svcPage('Printing & Digital Services','&#128424;',
+  item('&#128424;','Colour Print','&#8377;20/page','A4 high-quality colour print.',['Pen drive / WhatsApp / PDF/JPG'])+
+  item('&#128209;','B&W Print','&#8377;5/page','Fast black & white.',[])+
+  item('&#128466;','Xerox / Photocopy','&#8377;2/page','Any document — certs, IDs.',[])+
+  item('&#127991;','Lamination','&#8377;30','ID cards, certs, papers.',[])+
+  item('&#128210;','Spiral Binding','&#8377;50','Projects, reports.',[])+
+  item('&#128187;','Online Form Fill Up','&#8377;100','Govt jobs, scholarships.',['Photo & digital signature'])+
+  item('&#128196;','Resume Making','&#8377;150','Professional ATS-friendly CV.',['Personal + education details'])+
+  item('&#127912;','Photo Editing','&#8377;100','BG remove, resize, correction.',['Send photo on WhatsApp'])
+);}
+function p9(){return svcPage('Customized Gifts','&#127873;',
+  item('&#9749;','Mug Printing','&#8377;299','Custom magic mug.',['Send photo on WhatsApp','Ready 1–2 days'])+
+  item('&#128085;','T-Shirt Printing','&#8377;399','Custom design on cotton.',['Design + size S/M/L/XL/XXL'])+
+  item('&#128273;','Keychain Printing','&#8377;99','Custom photo keychain.',['Send photo on WhatsApp'])+
+  item('&#128444;','Photo Frame','A4 &#8377;299 / A3 &#8377;499','Instagram-style custom frame.',['Send photo on WhatsApp'])+
+  item('&#128715;','Cushion Printing','&#8377;399+','Custom cushion cover.',['Send design on WhatsApp'])+
+  item('&#127381;','Glass Print','&#8377;349','Custom photo on glass.',['Send photo on WhatsApp'])
+);}
+function p10(){
+  return `<div class="ribbon"></div><div class="svc-body">
+<div class="svc-head"><div class="svc-cat">&#9993; Contact</div><div class="svc-title">Contact & Location</div></div>
+<div class="svc-content">
+<div class="ccard"><div class="ccard-icon">&#128222;</div><div>
+<div class="ccard-lbl">Phone / WhatsApp</div>
+<div class="ccard-val"><a href="tel:${PHONE1}">${PHONE1}</a> &nbsp;&bull;&nbsp; <a href="tel:${PHONE2}">${PHONE2}</a></div>
+</div></div>
+<div class="ccard"><div class="ccard-icon">&#128140;</div><div>
+<div class="ccard-lbl">Email</div>
+<div class="ccard-val"><a href="mailto:mahatonetcafe@gmail.com">mahatonetcafe@gmail.com</a><br><a href="mailto:cscbaliapur@gmail.com">cscbaliapur@gmail.com</a></div>
+</div></div>
+<div class="ccard"><div class="ccard-icon">&#128205;</div><div>
+<div class="ccard-lbl">Address</div>
+<div class="ccard-val">Baliapur&ndash;Sindri Road, Near Modak Hotel<br>Baliapur, Dhanbad, Jharkhand &ndash; 828201</div>
+</div></div>
+<div class="ccard"><div class="ccard-icon">&#128336;</div><div>
+<div class="ccard-lbl">Working Hours</div>
+<div class="ccard-val">Mon &ndash; Sat: 9:00 AM &ndash; 9:00 PM<br><span style="color:var(--red);font-size:10px;">&#128683; Sunday: Holiday</span></div>
+</div></div>
+<a href="${MAP}" target="_blank" class="map-btn">&#128205; Open in Google Maps &rarr;</a>
+</div></div>${foot()}`;
+}
+function p11(){
+  return `<div class="ribbon"></div><div class="svc-body">
+<div class="svc-head"><div class="svc-cat">&#8505;&#65039; About Us</div><div class="svc-title">About Mahato Net Cafe</div></div>
+<div class="about-body">
+<div class="about-desc">Trusted Digital Service Center in Baliapur, Dhanbad, JH. Established <strong>18 Feb 2021</strong> by brothers Rupesh &amp; Goutam Mahato. We provide G2C, Digital, Insurance, Educational and Printing Services under one roof — Aadhaar, PAN, Certificates, Pension, Voter, Ayushman, PM Kisan, E-Shram, Passport, Scholarships, Job Applications and customised gifts: T-shirts, mugs, keyrings, cushions, glass prints, clocks and more.<br><br><strong>Mahato Net Cafe – Connecting People with Digital Opportunities.</strong></div>
+<div style="font-family:'Baloo 2',cursive;font-size:.95rem;font-weight:800;color:var(--dark);margin-bottom:7px;">&#128101; Meet the Founders</div>
+<div class="owner-card">
+  <img class="owner-photo" id="rupeshImg" src="${BASE}Rupesh.png" onerror="this.style.display='none';document.getElementById('rupeshPh').style.display='flex'">
+  <div class="owner-ph-ph" id="rupeshPh">&#129489;</div>
+  <div>
+    <div class="owner-name">Rupesh Mahato</div>
+    <div class="owner-role">Co-Founder &bull; Graphic Designer &bull; Animation Specialist</div>
+    <div class="owner-bio">6+ yrs Animation &amp; Graphic Design, 5+ yrs CSC. Certified: Google Digital Marketing, Google AI Essentials, IIBF Banking &amp; Finance, Insurance, UIDAI Aadhaar Operator/Supervisor.</div>
+    <div class="owner-edu">&#127891; Graduate &nbsp;&#127757; English, Hindi, Bengali</div>
+  </div>
+</div>
+<div class="owner-card">
+  <img class="owner-photo" id="goutamImg" src="${BASE}Goutam.png" onerror="this.style.display='none';document.getElementById('goutamPh').style.display='flex'">
+  <div class="owner-ph-ph" id="goutamPh">&#129489;</div>
+  <div>
+    <div class="owner-name">Goutam Kumar Mahato</div>
+    <div class="owner-role">Co-Founder &bull; Digital Service Professional</div>
+    <div class="owner-bio">6+ yrs CSC operations &amp; e-Governance. Committed to reliable, efficient, customer-friendly digital services.</div>
+    <div class="owner-edu">&#127891; +2 CBSE &bull; B.Sc. &bull; ITI &bull; DCA</div>
+  </div>
+</div>
+</div></div>${foot()}`;
+}
+function p12(){
+  return `<div class="ribbon"></div><div class="svc-body">
+<div class="svc-head"><div class="svc-cat">&#11088; Rate Us</div><div class="svc-title">Review &amp; Feedback</div></div>
+<div class="review-body">
+<div class="review-title">Aapka Experience Kaisa Raha?</div>
+<div class="review-stars-big">&#11088;&#11088;&#11088;&#11088;&#11088;</div>
+<div class="review-sub">Hamari service pasand aayi? Google pe review dijiye aur scratch card pakar Free Xerox jitein!</div>
+<button class="rbtn rbtn-google" onclick="openScratch()">
+  <span style="font-size:15px;font-weight:900;">G</span> Google Pe 5&#11088; Review Do &amp; Win!
+</button>
+<a href="https://wa.me/91${PHONE1}?text=Namaste!%20Mera%20feedback%3A%20" class="rbtn rbtn-wa">&#128172; WhatsApp Pe Feedback Bhejo</a>
+<div class="review-note"><strong>&#128204; Note:</strong> Google review ke liye Google account se login karein. Review dene ke baad scratch card milega aur prize claim karein!</div>
+<div class="review-shop-info">
+<div class="rinfo-row"><div class="rinfo-icon">&#128205;</div><div>
+<div class="rinfo-lbl">Address</div>
+<div class="rinfo-val">Baliapur&ndash;Sindri Road, Near Modak Hotel, Baliapur, Dhanbad &ndash; 828201</div>
+</div></div>
+<div class="rinfo-row"><div class="rinfo-icon">&#128222;</div><div>
+<div class="rinfo-lbl">Contact</div>
+<div class="rinfo-val"><a href="tel:${PHONE1}">${PHONE1}</a> &nbsp;|&nbsp; <a href="tel:${PHONE2}">${PHONE2}</a></div>
+</div></div>
+<div class="rinfo-row"><div class="rinfo-icon">&#128336;</div><div>
+<div class="rinfo-lbl">Hours</div>
+<div class="rinfo-val">Mon&ndash;Sat: 9:00 AM &ndash; 9:00 PM &nbsp;<span style="color:var(--red);font-size:9.5px;">&#128683; Sunday Holiday</span></div>
+</div></div>
+<a href="${MAP}" target="_blank" class="map-btn" style="margin:0;">&#128205; Open Google Maps &rarr;</a>
+</div>
+</div></div>
+<div class="pg-footer">
+<a href="${G_REVIEW}" target="_blank" class="wa-btn" style="background:#EA4335;">&#11088; Google Review</a>
+<a href="https://wa.me/91${PHONE1}" class="wa-btn2">&#128172; ${PHONE1}</a>
+</div>`;
+}
+
+const PAGES=[p0,p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12];
+const TOTAL=PAGES.length;
+
+/* ════ FLIP ENGINE ════ */
+let cur=0, busy=false;
+const stageEl=$('stage');
+let pageEl=document.querySelector('.page.is-active');
+pageEl.innerHTML=PAGES[0]();
+buildDots(); syncUI();
+
+function go(dir){
+  const next=cur+dir;
+  if(next<0||next>=TOTAL||busy)return;
+  busy=true; playClick();
+  const np=document.createElement('div');
+  np.className='page';
+  np.innerHTML=PAGES[next]();
+  stageEl.insertBefore(np,$('hint'));
+  const oldPage=pageEl;
+  if(dir>0){oldPage.classList.add('going-fwd');np.classList.add('coming-fwd');}
+  else{oldPage.classList.add('going-back');np.classList.add('coming-back');}
+  setTimeout(()=>{
+    oldPage.remove();
+    np.classList.remove('going-fwd','coming-fwd','going-back','coming-back');
+    np.classList.add('is-active');
+    pageEl=np; cur=next; busy=false; syncUI(); updateDots();
+  },400);
+}
+function goHome(){
+  if(cur===0||busy)return;
+  busy=true; playClick();
+  const np=document.createElement('div');np.className='page';np.innerHTML=PAGES[0]();
+  stageEl.insertBefore(np,$('hint'));
+  const old=pageEl;
+  old.classList.add('going-back');np.classList.add('coming-back');
+  setTimeout(()=>{
+    old.remove();np.classList.remove('going-back','coming-back');np.classList.add('is-active');
+    pageEl=np;cur=0;busy=false;syncUI();updateDots();
+  },400);
+}
+function syncUI(){
+  $('pgr').textContent=`${cur+1} / ${TOTAL}`;
+  $('prevBtn').className='nbtn'+(cur===0?' off':'');
+  $('nextBtn').className='nbtn nbtn-next'+(cur===TOTAL-1?' off':'');
+  $('homeBtn').className=cur===0?'home-btn invisible':'home-btn';
+}
+function buildDots(){
+  const d=$('dots');d.innerHTML='';
+  for(let i=0;i<TOTAL;i++){
+    const dot=document.createElement('div');
+    dot.className='dot'+(i===0?' on':'');
+    dot.onclick=()=>{if(!busy){if(i>cur)go(1);else if(i<cur)go(-1);}};
+    d.appendChild(dot);
+  }
+}
+function updateDots(){document.querySelectorAll('.dot').forEach((d,i)=>d.className='dot'+(i===cur?' on':''));}
+
+/* swipe */
+let tx=0,ty=0;
+stageEl.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY;},{passive:true});
+stageEl.addEventListener('touchend',e=>{
+  const dx=tx-e.changedTouches[0].clientX,dy=Math.abs(ty-e.changedTouches[0].clientY);
+  if(Math.abs(dx)>40&&dy<80)go(dx>0?1:-1);
+},{passive:true});
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight')go(1);if(e.key==='ArrowLeft')go(-1);if(e.key==='Home')goHome();
+});
+
+/* ════ LIGHTBOX ════ */
+function openLightbox(src,price){
+  $('lbImg').src=src;$('lbPrice').textContent=price;$('lightbox').classList.add('open');
+}
+function closeLightbox(){$('lightbox').classList.remove('open');}
+
+/* ════ SOUND ════ */
+function playClick(){
+  try{
+    const ctx=new(window.AudioContext||window.webkitAudioContext)();
+    const buf=ctx.createBuffer(1,Math.floor(ctx.sampleRate*0.055),ctx.sampleRate);
+    const d=buf.getChannelData(0);
+    for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,2.2)*0.22;
+    const s=ctx.createBufferSource();s.buffer=buf;
+    const g=ctx.createGain();g.gain.value=0.35;
+    s.connect(g);g.connect(ctx.destination);s.start();
+    setTimeout(()=>ctx.close(),200);
+  }catch(e){}
+}
+
+/* ════ AI VOICE ════ */
+let voiceDone=false;
+function tryVoice(){
+  if(voiceDone||!window.speechSynthesis)return;
+  const voices=window.speechSynthesis.getVoices();
+  const txt='\u0928\u092e\u0938\u094d\u0924\u0947! Mahato Net Cafe \u092e\u0947\u0902 \u0906\u092a\u0915\u093e \u0938\u094d\u0935\u093e\u0917\u0924 \u0939\u0948\u0964 \u092b\u094d\u0930\u0947\u092e \u0915\u0940 \u092b\u094b\u091f\u094b \u0914\u0930 \u0938\u0930\u094d\u0935\u093f\u0938 \u0932\u093f\u0938\u094d\u091f \u090f\u0902\u0921 \u092a\u094d\u0930\u093e\u0907\u0938 \u0915\u0947 \u092c\u093e\u0930\u0947 \u092e\u0947\u0902 \u091c\u093e\u0928\u0928\u0947 \u0915\u0947 \u0932\u093f\u090f \u0905\u0917\u0932\u0947 \u092a\u0947\u091c \u092e\u0947\u0902 \u091c\u093e\u092f\u0947\u0902\u0964';
+  voiceDone=true;
+  const msg=new SpeechSynthesisUtterance(txt);
+  const hi=voices.find(v=>v.lang==='hi-IN')||voices.find(v=>v.lang.startsWith('hi'))||null;
+  if(hi)msg.voice=hi;
+  msg.lang='hi-IN';msg.rate=0.85;msg.pitch=1.05;msg.volume=1;
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(msg);
+}
+// voices load async on some browsers
+if(window.speechSynthesis){
+  if(speechSynthesis.getVoices().length>0){setTimeout(tryVoice,1400);}
+  else{speechSynthesis.addEventListener('voiceschanged',()=>setTimeout(tryVoice,400),{once:true});}
+}
+// fallback: on first user interaction
+document.addEventListener('touchstart',()=>{if(!voiceDone)tryVoice();},{once:true,passive:true});
+document.addEventListener('click',()=>{if(!voiceDone)tryVoice();},{once:true});
+
+/* ════ SCRATCH CARD ════ */
+const PRIZES=[
+  'Free Xerox 1 Page','Free Xerox 2 Pages','Free Xerox 3 Pages',
+  'Free Xerox 4 Pages','Free Xerox 5 Pages','Free Xerox 7 Pages','Free Xerox 10 Pages'
+];
+let scratchRevealed=false;
+
+function openScratch(){
+  // Open Google review in new tab, then show scratch card when user returns
+  window.open(G_REVIEW,'_blank');
+  setTimeout(()=>showScratch(),600);
+}
+function showScratch(){
+  scratchRevealed=false;
+  const prize=PRIZES[Math.floor(Math.random()*PRIZES.length)];
+  $('prizeText').textContent=prize;
+  $('scratchOverlay').classList.add('open');
+  initCanvas();
+}
+function closeScratch(){$('scratchOverlay').classList.remove('open');}
+
+function initCanvas(){
+  const cv=$('scratchCanvas');
+  const ctx=cv.getContext('2d');
+  const W=cv.width,H=cv.height;
+  ctx.clearRect(0,0,W,H);
+  // silver foil
+  const g=ctx.createLinearGradient(0,0,W,H);
+  g.addColorStop(0,'#aaa');g.addColorStop(0.45,'#ddd');g.addColorStop(0.55,'#bbb');g.addColorStop(1,'#999');
+  ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  // coin texture dots
+  ctx.fillStyle='rgba(255,255,255,.12)';
+  for(let i=0;i<120;i++){ctx.beginPath();ctx.arc(Math.random()*W,Math.random()*H,Math.random()*3,0,6.28);ctx.fill();}
+  ctx.fillStyle='rgba(0,0,0,.25)';
+  ctx.font='bold 14px Nunito,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText('\ud83e\ude99 Scratch here to reveal your prize!',W/2,H/2);
+
+  let painting=false;
+  function scratch(x,y){
+    ctx.globalCompositeOperation='destination-out';
+    ctx.beginPath();ctx.arc(x,y,24,0,Math.PI*2);ctx.fill();
+    if(!scratchRevealed){
+      const data=ctx.getImageData(0,0,W,H).data;
+      let clear=0;for(let i=3;i<data.length;i+=4)if(data[i]<64)clear++;
+      if(clear/(W*H)>0.5){scratchRevealed=true;ctx.clearRect(0,0,W,H);}
+    }
+  }
+  cv.onmousedown=e=>{painting=true;const r=cv.getBoundingClientRect();scratch(e.clientX-r.left,e.clientY-r.top);};
+  cv.onmousemove=e=>{if(painting){const r=cv.getBoundingClientRect();scratch(e.clientX-r.left,e.clientY-r.top);}};
+  cv.onmouseup=cv.onmouseleave=()=>painting=false;
+  cv.ontouchstart=e=>{e.preventDefault();painting=true;const r=cv.getBoundingClientRect();scratch(e.touches[0].clientX-r.left,e.touches[0].clientY-r.top);};
+  cv.ontouchmove=e=>{e.preventDefault();if(painting){const r=cv.getBoundingClientRect();scratch(e.touches[0].clientX-r.left,e.touches[0].clientY-r.top);}};
+  cv.ontouchend=()=>painting=false;
+}
+
+/* hint */
+setTimeout(()=>{const h=$('hint');h.classList.add('show');setTimeout(()=>h.classList.remove('show'),3500);},2000);
+</script>
+</body>
+</html>
